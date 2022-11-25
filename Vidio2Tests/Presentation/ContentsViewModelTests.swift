@@ -33,13 +33,7 @@ final class ContentsViewModel {
             let contents = try await self.useCase.execute()
             
             let sections = contents
-                .map {
-                    if $0.variant == "portrait" {
-                        return Section.portraitItem($0.items)
-                    } else {
-                        return Section.landscapeItem($0.items)
-                    }
-                }
+                .map { $0.variant == "portrait" ? Section.portraitItem($0.items) : Section.landscapeItem($0.items) }
             
             self.state = .dataUpdated(sections)
         } catch {
