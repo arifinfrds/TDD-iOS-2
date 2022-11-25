@@ -11,6 +11,26 @@ protocol HTTPClient {
     func fetchFromAPI(_ url: URLRequest) async throws -> Data
 }
 
+struct RootResponse: Codable, Equatable {
+    let id: Int
+    let variant: String
+    let items: [Item]
+}
+
+struct Item: Codable, Equatable {
+    let id: Int
+    let title: String
+    let videoURL: String
+    let imageURL: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case videoURL = "video_url"
+        case imageURL = "image_url"
+    }
+}
+
 final class LoadVideosFromRemoteUseCase {
     private let client: HTTPClient
     
@@ -23,13 +43,20 @@ final class LoadVideosFromRemoteUseCase {
         case client
     }
     
-    func execute() async throws {
+    func execute() async throws -> [RootResponse] {
         do {
             let url = URL(string: "https://vidio.com/api/contents")!
             let request = URLRequest(url: url)
-            _ = try await client.fetchFromAPI(request)
+            let data = try await client.fetchFromAPI(request)
+            let decoder = JSONDecoder()
+            let decoded = try decoder.decode([RootResponse].self, from: data)
+            return decoded
         } catch {
-            throw error
+            if error is DecodingError {
+                throw Error.failToDecode
+            } else {
+                throw Error.client
+            }
         }
     }
 }
@@ -43,21 +70,21 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
         XCTAssertEqual(client.messages, [])
     }
     
-    func test_execute_requestItems() async throws {
+    func test_execute_requestItems() async {
         let client = HTTPClientSpy()
         let sut = LoadVideosFromRemoteUseCase(client: client)
         
-        try await sut.execute()
+        _ = try? await sut.execute()
         
         XCTAssertEqual(client.messages, [ .fetchFromAPI ])
     }
     
-    func test_executeTwice_requestItemsTwice() async throws {
+    func test_executeTwice_requestItemsTwice() async {
         let client = HTTPClientSpy()
         let sut = LoadVideosFromRemoteUseCase(client: client)
         
-        try await sut.execute()
-        try await sut.execute()
+        _ = try? await sut.execute()
+        _ = try? await sut.execute()
         
         XCTAssertEqual(client.messages, [ .fetchFromAPI, .fetchFromAPI ])
     }
@@ -95,6 +122,18 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
         }
     }
     
+    func test_execute_deliversItemsOnValidEmptyItemData() async {
+        let client = HTTPClientStub(result: .success(validEmptyItemJSONData()))
+        let sut = LoadVideosFromRemoteUseCase(client: client)
+        
+        do {
+            let decoded = try await sut.execute()
+            XCTAssertEqual(decoded, [])
+        } catch {
+            XCTFail("Expected success, got error instead: \(error)")
+        }
+    }
+    
     // MARK: - Helpers
     
     private func emptyJSONData() -> Data {
@@ -103,6 +142,12 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     
     private func invalidJSONData() -> Data {
         "invalid-json-data".data(using: .utf8)!
+    }
+    
+    private func validEmptyItemJSONData() -> Data {
+        """
+        []
+        """.data(using: .utf8)!
     }
     
     private final class HTTPClientSpy: HTTPClient {
