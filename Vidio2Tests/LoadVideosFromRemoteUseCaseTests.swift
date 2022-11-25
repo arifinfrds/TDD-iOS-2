@@ -20,6 +20,7 @@ final class LoadVideosFromRemoteUseCase {
     
     enum Error: Swift.Error {
         case failToDecode
+        case client
     }
     
     func execute() async throws {
@@ -62,14 +63,13 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     }
     
     func test_execute_deliversErrorOnClientError() async {
-        let clientError = NSError(domain: "client error", code: 1)
-        let client = HTTPClientStub(result: .failure(clientError))
+        let client = HTTPClientStub(result: .failure(LoadVideosFromRemoteUseCase.Error.client))
         let sut = LoadVideosFromRemoteUseCase(client: client)
         
         do {
             _ = try await sut.execute()
         } catch {
-            XCTAssertEqual(error as NSError, clientError)
+            XCTAssertEqual(error as? LoadVideosFromRemoteUseCase.Error, LoadVideosFromRemoteUseCase.Error.client)
         }
     }
     
