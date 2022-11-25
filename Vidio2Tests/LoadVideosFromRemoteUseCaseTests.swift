@@ -18,6 +18,10 @@ final class LoadVideosFromRemoteUseCase {
         self.client = client
     }
     
+    enum Error: Swift.Error {
+        case failToDecode
+    }
+    
     func execute() async throws {
         do {
             let url = URL(string: "https://vidio.com/api/contents")!
@@ -69,7 +73,22 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
         }
     }
     
+    func test_execute_deliversErrorOnEmptyJSON() async {
+        let client = HTTPClientStub(result: .success(emptyJSONData()))
+        let sut = LoadVideosFromRemoteUseCase(client: client)
+        
+        do {
+            _ = try await sut.execute()
+        } catch {
+            XCTAssertEqual(error as? LoadVideosFromRemoteUseCase.Error, LoadVideosFromRemoteUseCase.Error.failToDecode)
+        }
+    }
+    
     // MARK: - Helpers
+    
+    private func emptyJSONData() -> Data {
+        "".data(using: .utf8)!
+    }
     
     private final class HTTPClientSpy: HTTPClient {
         private(set) var messages = [Message]()
