@@ -15,6 +15,12 @@
 		924C0A1829306D4E0009F22B /* ContentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A1729306D4E0009F22B /* ContentsViewModel.swift */; };
 		924C0A1C29309AFB0009F22B /* ViewControllerUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A1B29309AFB0009F22B /* ViewControllerUIIntegrationTests.swift */; };
 		924C0A1E29309BAC0009F22B /* LoadVideosFromRemoteUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A1D29309BAC0009F22B /* LoadVideosFromRemoteUseCaseStub.swift */; };
+		924C0A222930A1680009F22B /* SectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A202930A1680009F22B /* SectionCell.swift */; };
+		924C0A232930A1680009F22B /* SectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 924C0A212930A1680009F22B /* SectionCell.xib */; };
+		924C0A262930A7730009F22B /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A242930A7730009F22B /* ItemCell.swift */; };
+		924C0A272930A7730009F22B /* ItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 924C0A252930A7730009F22B /* ItemCell.xib */; };
+		924C0A2A2930ABEE0009F22B /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A282930ABEE0009F22B /* SectionHeaderView.swift */; };
+		924C0A2D2930D6DB0009F22B /* ContentsUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A2C2930D6DB0009F22B /* ContentsUIComposer.swift */; };
 		92BD7F7229305445003BF696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F7129305445003BF696 /* AppDelegate.swift */; };
 		92BD7F7429305445003BF696 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F7329305445003BF696 /* SceneDelegate.swift */; };
 		92BD7F7629305445003BF696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F7529305445003BF696 /* ViewController.swift */; };
@@ -52,6 +58,12 @@
 		924C0A1729306D4E0009F22B /* ContentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsViewModel.swift; sourceTree = "<group>"; };
 		924C0A1B29309AFB0009F22B /* ViewControllerUIIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUIIntegrationTests.swift; sourceTree = "<group>"; };
 		924C0A1D29309BAC0009F22B /* LoadVideosFromRemoteUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadVideosFromRemoteUseCaseStub.swift; sourceTree = "<group>"; };
+		924C0A202930A1680009F22B /* SectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionCell.swift; sourceTree = "<group>"; };
+		924C0A212930A1680009F22B /* SectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionCell.xib; sourceTree = "<group>"; };
+		924C0A242930A7730009F22B /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
+		924C0A252930A7730009F22B /* ItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemCell.xib; sourceTree = "<group>"; };
+		924C0A282930ABEE0009F22B /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
+		924C0A2C2930D6DB0009F22B /* ContentsUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsUIComposer.swift; sourceTree = "<group>"; };
 		92BD7F6E29305445003BF696 /* Vidio2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vidio2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92BD7F7129305445003BF696 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		92BD7F7329305445003BF696 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,6 +156,19 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		924C0A1F2930A10F0009F22B /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				92BD7F7529305445003BF696 /* ViewController.swift */,
+				924C0A202930A1680009F22B /* SectionCell.swift */,
+				924C0A212930A1680009F22B /* SectionCell.xib */,
+				924C0A242930A7730009F22B /* ItemCell.swift */,
+				924C0A252930A7730009F22B /* ItemCell.xib */,
+				924C0A282930ABEE0009F22B /* SectionHeaderView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		92BD7F6529305445003BF696 = {
 			isa = PBXGroup;
 			children = (
@@ -169,9 +194,10 @@
 			children = (
 				924C0A09293061650009F22B /* API */,
 				924C0A1629306D3C0009F22B /* Presentation */,
+				924C0A1F2930A10F0009F22B /* UI */,
 				92BD7F7129305445003BF696 /* AppDelegate.swift */,
+				924C0A2C2930D6DB0009F22B /* ContentsUIComposer.swift */,
 				92BD7F7329305445003BF696 /* SceneDelegate.swift */,
-				92BD7F7529305445003BF696 /* ViewController.swift */,
 				92BD7F7729305445003BF696 /* Main.storyboard */,
 				92BD7F7A29305447003BF696 /* Assets.xcassets */,
 				92BD7F7C29305447003BF696 /* LaunchScreen.storyboard */,
@@ -306,7 +332,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				924C0A232930A1680009F22B /* SectionCell.xib in Resources */,
 				92BD7F7E29305447003BF696 /* LaunchScreen.storyboard in Resources */,
+				924C0A272930A7730009F22B /* ItemCell.xib in Resources */,
 				92BD7F7B29305447003BF696 /* Assets.xcassets in Resources */,
 				92BD7F7929305445003BF696 /* Main.storyboard in Resources */,
 			);
@@ -333,11 +361,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				924C0A222930A1680009F22B /* SectionCell.swift in Sources */,
 				92BD7F7629305445003BF696 /* ViewController.swift in Sources */,
+				924C0A2D2930D6DB0009F22B /* ContentsUIComposer.swift in Sources */,
+				924C0A262930A7730009F22B /* ItemCell.swift in Sources */,
 				924C0A082930614C0009F22B /* LoadVideosFromRemoteUseCase.swift in Sources */,
 				924C0A0D293061A40009F22B /* HTTPClient.swift in Sources */,
 				924C0A0B2930617D0009F22B /* RootResponse.swift in Sources */,
 				924C0A1829306D4E0009F22B /* ContentsViewModel.swift in Sources */,
+				924C0A2A2930ABEE0009F22B /* SectionHeaderView.swift in Sources */,
 				92BD7F7229305445003BF696 /* AppDelegate.swift in Sources */,
 				92BD7F7429305445003BF696 /* SceneDelegate.swift in Sources */,
 			);
