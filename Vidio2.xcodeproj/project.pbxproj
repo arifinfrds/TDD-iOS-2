@@ -103,6 +103,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		924C0A11293061FA0009F22B /* API */ = {
+			isa = PBXGroup;
+			children = (
+				92BD7FA22930554D003BF696 /* LoadVideosFromRemoteUseCaseTests.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		92BD7F6529305445003BF696 = {
 			isa = PBXGroup;
 			children = (
@@ -141,8 +149,8 @@
 		92BD7F8729305447003BF696 /* Vidio2Tests */ = {
 			isa = PBXGroup;
 			children = (
+				924C0A11293061FA0009F22B /* API */,
 				924C0A0E293061C00009F22B /* Helpers */,
-				92BD7FA22930554D003BF696 /* LoadVideosFromRemoteUseCaseTests.swift */,
 				92BD7FA12930554C003BF696 /* Vidio2Tests-Bridging-Header.h */,
 			);
 			path = Vidio2Tests;
