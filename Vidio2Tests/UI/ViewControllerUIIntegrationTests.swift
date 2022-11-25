@@ -12,11 +12,33 @@ final class ViewControllerUIIntegrationTests: XCTestCase {
     
     func test_loadView_inInInitialState() {
         let useCase = LoadVideosFromRemoteUseCaseStub(result: .failure(LoadVideosFromRemoteUseCase.Error.failToDecode))
-        let sut = ViewController()
-        sut.viewModel = ContentsViewModel(useCase: useCase)
-        sut.loadViewIfNeeded()
+        let sut = makeSUT(loadVideosUseCase: useCase)
         
         XCTAssertEqual(sut.numberOfSections, 0)
+    }
+    
+    func test_loadView_loadSections() {
+        let sampleItem = anyItem()
+        let useCase = LoadVideosFromRemoteUseCaseStub(result: .success([
+            .init(id: 0, variant: .portrait, items: [ sampleItem ]),
+            .init(id: 1, variant: .landscape, items: [ sampleItem ])
+        ]))
+        let sut = makeSUT(loadVideosUseCase: useCase)
+        
+        XCTAssertEqual(sut.sections.count, 2)
+        XCTAssertEqual(sut.numberOfSections, 2)
+    }
+    
+    // MARK: - Helpers
+    
+    private func makeSUT(loadVideosUseCase: LoadVideosUseCase) -> ViewController {
+        let viewController = ContentsUIComposer.composeWith(loadVideosUseCase: loadVideosUseCase)
+        viewController.loadViewIfNeeded()
+        return viewController
+    }
+    
+    private func anyItem() -> Item {
+        Item(id: 1, title: "title 1", videoURL: "https://vidio.com/watch/32442.m3u8", imageURL: "https://vidio.com/image/32442.png")
     }
 }
 
