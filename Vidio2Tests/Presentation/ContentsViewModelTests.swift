@@ -5,18 +5,20 @@
 //  Created by Arifin Firdaus on 25/11/22.
 //
 
+import Combine
 import XCTest
 @testable import Vidio2
 
 final class ContentsViewModel {
     private let useCase: LoadVideosUseCase
     
-    private(set) var state: State = .initial
+    private(set) var state: CurrentValueSubject<State, Never> = .init(.initial)
     
     enum State: Equatable {
         case initial
         case error
         case dataUpdated([Section])
+        case loading
     }
     
     enum Section: Equatable {
@@ -29,15 +31,16 @@ final class ContentsViewModel {
     }
     
     func onLoad() async {
+        state.send(.loading)
         do {
             let contents = try await self.useCase.execute()
             
             let sections = contents
                 .map { $0.variant == "portrait" ? Section.portraitItem($0.items) : Section.landscapeItem($0.items) }
             
-            self.state = .dataUpdated(sections)
+            self.state.send(.dataUpdated(sections))
         } catch {
-            self.state = .error
+            self.state.send(.error)
         }
     }
 }
@@ -76,7 +79,7 @@ final class ContentsViewModelTests: XCTestCase {
         
         await sut.onLoad()
         
-        XCTAssertEqual(sut.state, .error)
+        XCTAssertEqual(sut.state.value, .error)
     }
     
     func test_onLoad_showsEmptyItems() async {
@@ -85,7 +88,7 @@ final class ContentsViewModelTests: XCTestCase {
         
         await sut.onLoad()
         
-        XCTAssertEqual(sut.state, .dataUpdated([]))
+        XCTAssertEqual(sut.state.value, .dataUpdated([]))
     }
     
     func test_onLoad_showsSections() async {
@@ -98,10 +101,34 @@ final class ContentsViewModelTests: XCTestCase {
         
         await sut.onLoad()
         
-        XCTAssertEqual(sut.state, .dataUpdated([
+        XCTAssertEqual(sut.state.value, .dataUpdated([
             .portraitItem([ sampleItem ]),
             .landscapeItem([ sampleItem ])
         ]))
+    }
+    
+    func test_onLoad_showsCorrectStateInOrder() async {
+        let sampleItem = anyItem()
+        let useCase = LoadVideosFromRemoteUseCaseStub(result: .success([
+            .init(id: 0, variant: "portrait", items: [ sampleItem ]),
+            .init(id: 1, variant: "landscape", items: [ sampleItem ])
+        ]))
+        let sut = ContentsViewModel(useCase: useCase)
+        let stateSpy = Spy(state: sut.state)
+        
+        await sut.onLoad()
+        
+        XCTAssertEqual(
+            stateSpy.values,
+            [
+                .initial,
+                .loading,
+                    .dataUpdated([
+                        .portraitItem([ sampleItem ]),
+                        .landscapeItem([ sampleItem ])
+                    ])
+            ]
+        )
     }
     
     // MARK: - Helpers
@@ -137,6 +164,23 @@ final class ContentsViewModelTests: XCTestCase {
             case let .failure(error):
                 throw error
             }
+        }
+    }
+    
+    private final class Spy {
+        private let state: CurrentValueSubject<ContentsViewModel.State, Never>
+        private(set) var values = [ContentsViewModel.State]()
+        private var subscriptions = Set<AnyCancellable>()
+        
+        init(state: CurrentValueSubject<ContentsViewModel.State, Never>) {
+            self.state = state
+            
+            self.state
+                .sink(
+                    receiveCompletion: { _ in },
+                    receiveValue: { self.values.append($0) }
+                )
+                .store(in: &subscriptions)
         }
     }
 }
