@@ -94,7 +94,27 @@ final class ContentsViewModelTests: XCTestCase {
         XCTAssertEqual(sut.state, .dataUpdated([]))
     }
     
+    func test_onLoad_showsSections() async {
+        let sampleItem = anyItem()
+        let useCase = LoadVideosFromRemoteUseCaseStub(result: .success([
+            .init(id: 0, variant: "portrait", items: [ sampleItem ]),
+            .init(id: 1, variant: "landscape", items: [ sampleItem ])
+        ]))
+        let sut = ContentsViewModel(useCase: useCase)
+        
+        await sut.onLoad()
+        
+        XCTAssertEqual(sut.state, .dataUpdated([
+            .portraitItem([ sampleItem ]),
+            .landscapeItem([ sampleItem ])
+        ]))
+    }
+    
     // MARK: - Helpers
+    
+    private func anyItem() -> Item {
+        Item(id: 1, title: "title 1", videoURL: "https://vidio.com/watch/32442.m3u8", imageURL: "https://vidio.com/image/32442.png")
+    }
     
     private final class LoadVideosFromRemoteUseCaseSpy: LoadVideosUseCase {
         private(set) var messages = [Message]()
