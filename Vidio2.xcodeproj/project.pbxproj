@@ -13,6 +13,8 @@
 		924C0A10293061CB0009F22B /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A0F293061CB0009F22B /* XCTestCase+MemoryLeakTracking.swift */; };
 		924C0A15293062420009F22B /* ContentsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A14293062420009F22B /* ContentsViewModelTests.swift */; };
 		924C0A1829306D4E0009F22B /* ContentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A1729306D4E0009F22B /* ContentsViewModel.swift */; };
+		924C0A1C29309AFB0009F22B /* ViewControllerUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A1B29309AFB0009F22B /* ViewControllerUIIntegrationTests.swift */; };
+		924C0A1E29309BAC0009F22B /* LoadVideosFromRemoteUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A1D29309BAC0009F22B /* LoadVideosFromRemoteUseCaseStub.swift */; };
 		92BD7F7229305445003BF696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F7129305445003BF696 /* AppDelegate.swift */; };
 		92BD7F7429305445003BF696 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F7329305445003BF696 /* SceneDelegate.swift */; };
 		92BD7F7629305445003BF696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F7529305445003BF696 /* ViewController.swift */; };
@@ -48,6 +50,8 @@
 		924C0A0F293061CB0009F22B /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		924C0A14293062420009F22B /* ContentsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsViewModelTests.swift; sourceTree = "<group>"; };
 		924C0A1729306D4E0009F22B /* ContentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsViewModel.swift; sourceTree = "<group>"; };
+		924C0A1B29309AFB0009F22B /* ViewControllerUIIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUIIntegrationTests.swift; sourceTree = "<group>"; };
+		924C0A1D29309BAC0009F22B /* LoadVideosFromRemoteUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadVideosFromRemoteUseCaseStub.swift; sourceTree = "<group>"; };
 		92BD7F6E29305445003BF696 /* Vidio2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vidio2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92BD7F7129305445003BF696 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		92BD7F7329305445003BF696 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				924C0A0F293061CB0009F22B /* XCTestCase+MemoryLeakTracking.swift */,
+				924C0A1D29309BAC0009F22B /* LoadVideosFromRemoteUseCaseStub.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -129,6 +134,14 @@
 				924C0A1729306D4E0009F22B /* ContentsViewModel.swift */,
 			);
 			path = Presentation;
+			sourceTree = "<group>";
+		};
+		924C0A1A29309ADF0009F22B /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				924C0A1B29309AFB0009F22B /* ViewControllerUIIntegrationTests.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		92BD7F6529305445003BF696 = {
@@ -173,6 +186,7 @@
 				924C0A0E293061C00009F22B /* Helpers */,
 				924C0A11293061FA0009F22B /* API */,
 				924C0A132930622C0009F22B /* Presentation */,
+				924C0A1A29309ADF0009F22B /* UI */,
 				92BD7FA12930554C003BF696 /* Vidio2Tests-Bridging-Header.h */,
 			);
 			path = Vidio2Tests;
@@ -333,8 +347,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				924C0A1E29309BAC0009F22B /* LoadVideosFromRemoteUseCaseStub.swift in Sources */,
 				924C0A15293062420009F22B /* ContentsViewModelTests.swift in Sources */,
 				92BD7FA32930554D003BF696 /* LoadVideosFromRemoteUseCaseTests.swift in Sources */,
+				924C0A1C29309AFB0009F22B /* ViewControllerUIIntegrationTests.swift in Sources */,
 				924C0A10293061CB0009F22B /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

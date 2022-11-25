@@ -124,23 +124,6 @@ final class ContentsViewModelTests: XCTestCase {
         }
     }
     
-    private final class LoadVideosFromRemoteUseCaseStub: LoadVideosUseCase {
-        private let result: Result<[RootResponse], LoadVideosFromRemoteUseCase.Error>
-        
-        init(result: Result<[RootResponse], LoadVideosFromRemoteUseCase.Error>) {
-            self.result = result
-        }
-        
-        func execute() async throws -> [RootResponse] {
-            switch result {
-            case let .success(rootResponse):
-                return rootResponse
-            case let .failure(error):
-                throw error
-            }
-        }
-    }
-    
     private final class Spy<T> {
         private let state: CurrentValueSubject<T, Never>
         private(set) var values = [T]()
