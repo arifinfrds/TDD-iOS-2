@@ -48,15 +48,13 @@ final class ContentsViewModel {
 final class ContentsViewModelTests: XCTestCase {
 
     func test_init_doesNotRequestContents() {
-        let useCase = LoadVideosFromRemoteUseCaseSpy()
-        _ = ContentsViewModel(useCase: useCase)
+        let (_, useCase) = makeSUT()
         
         XCTAssertEqual(useCase.messages, [])
     }
     
     func test_onLoad_requestContents() async {
-        let useCase = LoadVideosFromRemoteUseCaseSpy()
-        let sut = ContentsViewModel(useCase: useCase)
+        let (sut, useCase) = makeSUT()
         
         await sut.onLoad()
         
@@ -64,8 +62,7 @@ final class ContentsViewModelTests: XCTestCase {
     }
     
     func test_onLoadTwice_requestContentsTwice() async {
-        let useCase = LoadVideosFromRemoteUseCaseSpy()
-        let sut = ContentsViewModel(useCase: useCase)
+        let (sut, useCase) = makeSUT()
         
         await sut.onLoad()
         await sut.onLoad()
@@ -75,7 +72,7 @@ final class ContentsViewModelTests: XCTestCase {
     
     func test_onLoad_showsErrorOnLoadError() async {
         let useCase = LoadVideosFromRemoteUseCaseStub(result: .failure(LoadVideosFromRemoteUseCase.Error.failToDecode))
-        let sut = ContentsViewModel(useCase: useCase)
+        let sut = makeSUT(useCaseStub: useCase)
         
         await sut.onLoad()
         
@@ -84,7 +81,7 @@ final class ContentsViewModelTests: XCTestCase {
     
     func test_onLoad_showsEmptyItems() async {
         let useCase = LoadVideosFromRemoteUseCaseStub(result: .success([]))
-        let sut = ContentsViewModel(useCase: useCase)
+        let sut = makeSUT(useCaseStub: useCase)
         
         await sut.onLoad()
         
@@ -113,7 +110,7 @@ final class ContentsViewModelTests: XCTestCase {
             .init(id: 0, variant: .portrait, items: [ sampleItem ]),
             .init(id: 1, variant: .landscape, items: [ sampleItem ])
         ]))
-        let sut = ContentsViewModel(useCase: useCase)
+        let sut = makeSUT(useCaseStub: useCase)
         let stateSpy = Spy<ContentsViewModel.State>(state: sut.state)
         
         await sut.onLoad()
@@ -132,6 +129,19 @@ final class ContentsViewModelTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func makeSUT(useCaseStub: LoadVideosFromRemoteUseCaseStub, file: StaticString = #filePath, line: UInt = #line) -> ContentsViewModel {
+        let sut = ContentsViewModel(useCase: useCaseStub)
+        trackMemoryLeak(on: sut, file: file, line: line)
+        return sut
+    }
+    
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: ContentsViewModel, useCase: LoadVideosFromRemoteUseCaseSpy) {
+        let useCase = LoadVideosFromRemoteUseCaseSpy()
+        let sut = ContentsViewModel(useCase: useCase)
+        trackMemoryLeak(on: sut, file: file, line: line)
+        return (sut, useCase)
+    }
     
     private func anyItem() -> Item {
         Item(id: 1, title: "title 1", videoURL: "https://vidio.com/watch/32442.m3u8", imageURL: "https://vidio.com/image/32442.png")
