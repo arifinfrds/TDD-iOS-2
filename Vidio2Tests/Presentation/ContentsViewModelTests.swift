@@ -114,7 +114,7 @@ final class ContentsViewModelTests: XCTestCase {
             .init(id: 1, variant: .landscape, items: [ sampleItem ])
         ]))
         let sut = ContentsViewModel(useCase: useCase)
-        let stateSpy = Spy(state: sut.state)
+        let stateSpy = Spy<ContentsViewModel.State>(state: sut.state)
         
         await sut.onLoad()
         
@@ -167,12 +167,12 @@ final class ContentsViewModelTests: XCTestCase {
         }
     }
     
-    private final class Spy {
-        private let state: CurrentValueSubject<ContentsViewModel.State, Never>
-        private(set) var values = [ContentsViewModel.State]()
+    private final class Spy<T> {
+        private let state: CurrentValueSubject<T, Never>
+        private(set) var values = [T]()
         private var subscriptions = Set<AnyCancellable>()
         
-        init(state: CurrentValueSubject<ContentsViewModel.State, Never>) {
+        init(state: CurrentValueSubject<T, Never>) {
             self.state = state
             
             self.state
