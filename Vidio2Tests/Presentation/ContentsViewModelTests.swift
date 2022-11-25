@@ -16,6 +16,12 @@ final class ContentsViewModel {
     enum State: Equatable {
         case initial
         case error
+        case dataUpdated([Section])
+    }
+    
+    enum Section: Equatable {
+        case portraitItem([Item])
+        case landscapeItem([Item])
     }
     
     init(useCase: LoadVideosUseCase) {
@@ -24,7 +30,18 @@ final class ContentsViewModel {
     
     func onLoad() async {
         do {
-            _ = try await self.useCase.execute()
+            let contents = try await self.useCase.execute()
+            
+            let sections = contents
+                .map {
+                    if $0.variant == "portrait" {
+                        return Section.portraitItem($0.items)
+                    } else {
+                        return Section.landscapeItem($0.items)
+                    }
+                }
+            
+            self.state = .dataUpdated(sections)
         } catch {
             self.state = .error
         }
@@ -66,6 +83,15 @@ final class ContentsViewModelTests: XCTestCase {
         await sut.onLoad()
         
         XCTAssertEqual(sut.state, .error)
+    }
+    
+    func test_onLoad_showsEmptyItems() async {
+        let useCase = LoadVideosFromRemoteUseCaseStub(result: .success([]))
+        let sut = ContentsViewModel(useCase: useCase)
+        
+        await sut.onLoad()
+        
+        XCTAssertEqual(sut.state, .dataUpdated([]))
     }
     
     // MARK: - Helpers
