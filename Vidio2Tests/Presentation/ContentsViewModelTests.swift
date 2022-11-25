@@ -42,6 +42,16 @@ final class ContentsViewModelTests: XCTestCase {
         XCTAssertEqual(useCase.messages, [ .loadContents ])
     }
     
+    func test_onLoadTwice_requestContentsTwice() async {
+        let useCase = LoadVideosFromRemoteUseCaseSpy()
+        let sut = ContentsViewModel(useCase: useCase)
+        
+        await sut.onLoad()
+        await sut.onLoad()
+        
+        XCTAssertEqual(useCase.messages, [ .loadContents, .loadContents ])
+    }
+    
     
     // MARK: - Helpers
     
