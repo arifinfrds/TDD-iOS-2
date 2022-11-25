@@ -20,11 +20,18 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Task.detached {
-            await self.bindViewModel()
-        }
+        bindViewModel()
+        
+        onLoad()
         
         setupCollectionView()
+    }
+    
+    @discardableResult
+    func onLoad() -> Task<Void, Never> {
+        return Task {
+            await self.viewModel?.onLoad()
+        }
     }
     
     private func setupCollectionView() {
@@ -37,7 +44,7 @@ final class ViewController: UIViewController {
         collectionView.delegate = self
     }
     
-    private func bindViewModel() async {
+    private func bindViewModel() {
         viewModel?.state
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] state in
@@ -55,8 +62,6 @@ final class ViewController: UIViewController {
                 }
             })
             .store(in: &subscriptions)
-        
-        await viewModel?.onLoad()
     }
     
     private func showLoadingView() {

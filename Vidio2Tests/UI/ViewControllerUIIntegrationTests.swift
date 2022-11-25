@@ -17,7 +17,7 @@ final class ViewControllerUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.numberOfSections, 0)
     }
     
-    func test_loadView_loadSections() {
+    func test_loadView_loadSections() async {
         let sampleItem = anyItem()
         let useCase = LoadVideosFromRemoteUseCaseStub(result: .success([
             .init(id: 0, variant: .portrait, items: [ sampleItem ]),
@@ -25,6 +25,11 @@ final class ViewControllerUIIntegrationTests: XCTestCase {
         ]))
         let sut = makeSUT(loadVideosUseCase: useCase)
         
+        // FIXME: Forced to make a non private API to await.
+        _ = await sut.onLoad().result
+        
+        // FIXME: Main actor-isolated property 'sections' can not be referenced from a non-isolated autoclosure
+        // FIXME: Main actor-isolated property 'numberOfSections' can not be referenced from a non-isolated autoclosure
         XCTAssertEqual(sut.sections.count, 2)
         XCTAssertEqual(sut.numberOfSections, 2)
     }
