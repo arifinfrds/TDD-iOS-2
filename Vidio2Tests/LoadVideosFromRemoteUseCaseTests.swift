@@ -47,6 +47,16 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
         XCTAssertEqual(client.messages, [ .fetchFromAPI ])
     }
     
+    func test_executeTwice_requestItemsTwice() async {
+        let client = HTTPClientSpy()
+        let sut = LoadVideosFromRemoteUseCase(client: client)
+        
+        await sut.execute()
+        await sut.execute()
+        
+        XCTAssertEqual(client.messages, [ .fetchFromAPI, .fetchFromAPI ])
+    }
+    
     // MARK: - Helpers
     
     private final class HTTPClientSpy: HTTPClient {
