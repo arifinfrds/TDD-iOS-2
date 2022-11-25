@@ -12,8 +12,8 @@ struct RootResponse: Codable, Equatable {
 }
 
 enum VariantType: String, Codable {
-    case portrait = "portrait"
-    case landscape = "landscape"
+    case portrait
+    case landscape
 }
 
 struct Item: Codable, Equatable {
