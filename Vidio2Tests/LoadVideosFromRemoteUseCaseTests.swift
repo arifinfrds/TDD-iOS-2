@@ -147,6 +147,20 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
         }
     }
     
+    func test_execute_deliversItemsOnValidMultipleItemData() async {
+        let client = HTTPClientStub(result: .success(validMultipleItemJSONData()))
+        let sut = LoadVideosFromRemoteUseCase(client: client)
+        
+        do {
+            let decoded = try await sut.execute()
+            XCTAssertEqual(decoded.count, 2)
+            XCTAssertEqual(decoded.first!.items.count, 2)
+            XCTAssertEqual(decoded.last!.items.count, 2)
+        } catch {
+            XCTFail("Expected success, got error instead: \(error)")
+        }
+    }
+    
     // MARK: - Helpers
     
     private func emptyJSONData() -> Data {
@@ -176,6 +190,49 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
                      "video_url": "https://vidio.com/watch/32442.m3u8",
                      "image_url": "https://vidio.com/image/32442.png"
                  }
+               ]
+           }
+        ]
+        """.data(using: .utf8)!
+    }
+    
+    private func validMultipleItemJSONData() -> Data {
+        """
+        [
+           {
+              "id": 1,
+              "variant": "portrait",
+              "items": [
+                 {
+                     "id": 1,
+                     "title": "title 1",
+                     "video_url": "https://vidio.com/watch/32442.m3u8",
+                     "image_url": "https://vidio.com/image/32442.png"
+                 },
+                 {
+                     "id": 2,
+                     "title": "title 2",
+                     "video_url": "https://vidio.com/watch/32443.m3u8",
+                    "image_url": "https://vidio.com/image/32443.png"
+                 }
+               ]
+           },
+           {
+               "id": 2,
+               "variant": "landscape",
+               "items": [
+                  {
+                     "id": 1,
+                     "title": "title 1",
+                     "video_url": "https://vidio.com/watch/32442.m3u8",
+                     "image_url": "https://vidio.com/image/32442.png"
+                  },
+                  {
+                     "id": 2,
+                     "title": "title 2",
+                     "video_url": "https://vidio.com/watch/32443.m3u8",
+                     "image_url": "https://vidio.com/image/32443.png"
+                  }
                ]
            }
         ]
