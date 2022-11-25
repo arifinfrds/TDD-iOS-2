@@ -33,7 +33,7 @@ final class ContentsViewModelTests: XCTestCase {
         XCTAssertEqual(useCase.messages, [])
     }
     
-    func test_init_requestContents() async {
+    func test_onLoad_requestContents() async {
         let useCase = LoadVideosFromRemoteUseCaseSpy()
         let sut = ContentsViewModel(useCase: useCase)
         
