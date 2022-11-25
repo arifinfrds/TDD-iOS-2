@@ -36,7 +36,7 @@ final class ContentsViewModel {
             let contents = try await self.useCase.execute()
             
             let sections = contents
-                .map { $0.variant == "portrait" ? Section.portraitItem($0.items) : Section.landscapeItem($0.items) }
+                .map { $0.variant == .portrait ? Section.portraitItem($0.items) : Section.landscapeItem($0.items) }
             
             self.state.send(.dataUpdated(sections))
         } catch {
@@ -94,8 +94,8 @@ final class ContentsViewModelTests: XCTestCase {
     func test_onLoad_showsSections() async {
         let sampleItem = anyItem()
         let useCase = LoadVideosFromRemoteUseCaseStub(result: .success([
-            .init(id: 0, variant: "portrait", items: [ sampleItem ]),
-            .init(id: 1, variant: "landscape", items: [ sampleItem ])
+            .init(id: 0, variant: .portrait, items: [ sampleItem ]),
+            .init(id: 1, variant: .landscape, items: [ sampleItem ])
         ]))
         let sut = ContentsViewModel(useCase: useCase)
         
@@ -110,8 +110,8 @@ final class ContentsViewModelTests: XCTestCase {
     func test_onLoad_showsCorrectStateInOrder() async {
         let sampleItem = anyItem()
         let useCase = LoadVideosFromRemoteUseCaseStub(result: .success([
-            .init(id: 0, variant: "portrait", items: [ sampleItem ]),
-            .init(id: 1, variant: "landscape", items: [ sampleItem ])
+            .init(id: 0, variant: .portrait, items: [ sampleItem ]),
+            .init(id: 1, variant: .landscape, items: [ sampleItem ])
         ]))
         let sut = ContentsViewModel(useCase: useCase)
         let stateSpy = Spy(state: sut.state)

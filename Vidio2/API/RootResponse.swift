@@ -7,8 +7,13 @@
 
 struct RootResponse: Codable, Equatable {
     let id: Int
-    let variant: String
+    let variant: VariantType
     let items: [Item]
+}
+
+enum VariantType: String, Codable {
+    case portrait = "portrait"
+    case landscape = "landscape"
 }
 
 struct Item: Codable, Equatable {
