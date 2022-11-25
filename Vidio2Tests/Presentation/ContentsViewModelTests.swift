@@ -11,6 +11,13 @@ import XCTest
 final class ContentsViewModel {
     private let useCase: LoadVideosUseCase
     
+    private(set) var state: State = .initial
+    
+    enum State: Equatable {
+        case initial
+        case error
+    }
+    
     init(useCase: LoadVideosUseCase) {
         self.useCase = useCase
     }
@@ -19,7 +26,7 @@ final class ContentsViewModel {
         do {
             _ = try await self.useCase.execute()
         } catch {
-            
+            self.state = .error
         }
     }
 }
@@ -52,6 +59,14 @@ final class ContentsViewModelTests: XCTestCase {
         XCTAssertEqual(useCase.messages, [ .loadContents, .loadContents ])
     }
     
+    func test_onLoad_showsErrorOnLoadError() async {
+        let useCase = LoadVideosFromRemoteUseCaseStub(result: .failure(LoadVideosFromRemoteUseCase.Error.failToDecode))
+        let sut = ContentsViewModel(useCase: useCase)
+        
+        await sut.onLoad()
+        
+        XCTAssertEqual(sut.state, .error)
+    }
     
     // MARK: - Helpers
     
@@ -65,6 +80,23 @@ final class ContentsViewModelTests: XCTestCase {
         func execute() async throws -> [RootResponse] {
             self.messages.append(.loadContents)
             return []
+        }
+    }
+    
+    private final class LoadVideosFromRemoteUseCaseStub: LoadVideosUseCase {
+        private let result: Result<[RootResponse], LoadVideosFromRemoteUseCase.Error>
+        
+        init(result: Result<[RootResponse], LoadVideosFromRemoteUseCase.Error>) {
+            self.result = result
+        }
+        
+        func execute() async throws -> [RootResponse] {
+            switch result {
+            case let .success(rootResponse):
+                return rootResponse
+            case let .failure(error):
+                throw error
+            }
         }
     }
 }
