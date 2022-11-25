@@ -5,18 +5,18 @@
 //  Created by Arifin Firdaus on 25/11/22.
 //
 
-struct RootResponse: Codable, Equatable {
+struct RootResponse: Decodable, Equatable {
     let id: Int
     let variant: VariantType
     let items: [Item]
 }
 
-enum VariantType: String, Codable {
+enum VariantType: String, Decodable {
     case portrait
     case landscape
 }
 
-struct Item: Codable, Equatable {
+struct Item: Decodable, Equatable {
     let id: Int
     let title: String
     let videoURL: String
