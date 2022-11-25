@@ -13,9 +13,9 @@
 		92BD7F7929305445003BF696 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92BD7F7729305445003BF696 /* Main.storyboard */; };
 		92BD7F7B29305447003BF696 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92BD7F7A29305447003BF696 /* Assets.xcassets */; };
 		92BD7F7E29305447003BF696 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92BD7F7C29305447003BF696 /* LaunchScreen.storyboard */; };
-		92BD7F8929305447003BF696 /* Vidio2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F8829305447003BF696 /* Vidio2Tests.swift */; };
 		92BD7F9329305447003BF696 /* Vidio2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F9229305447003BF696 /* Vidio2UITests.swift */; };
 		92BD7F9529305447003BF696 /* Vidio2UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F9429305447003BF696 /* Vidio2UITestsLaunchTests.swift */; };
+		92BD7FA32930554D003BF696 /* LoadVideosFromRemoteUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7FA22930554D003BF696 /* LoadVideosFromRemoteUseCaseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,10 +45,11 @@
 		92BD7F7D29305447003BF696 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		92BD7F7F29305447003BF696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		92BD7F8429305447003BF696 /* Vidio2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Vidio2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		92BD7F8829305447003BF696 /* Vidio2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vidio2Tests.swift; sourceTree = "<group>"; };
 		92BD7F8E29305447003BF696 /* Vidio2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Vidio2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		92BD7F9229305447003BF696 /* Vidio2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vidio2UITests.swift; sourceTree = "<group>"; };
 		92BD7F9429305447003BF696 /* Vidio2UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vidio2UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		92BD7FA12930554C003BF696 /* Vidio2Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Vidio2Tests-Bridging-Header.h"; sourceTree = "<group>"; };
+		92BD7FA22930554D003BF696 /* LoadVideosFromRemoteUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadVideosFromRemoteUseCaseTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +114,8 @@
 		92BD7F8729305447003BF696 /* Vidio2Tests */ = {
 			isa = PBXGroup;
 			children = (
-				92BD7F8829305447003BF696 /* Vidio2Tests.swift */,
+				92BD7FA22930554D003BF696 /* LoadVideosFromRemoteUseCaseTests.swift */,
+				92BD7FA12930554C003BF696 /* Vidio2Tests-Bridging-Header.h */,
 			);
 			path = Vidio2Tests;
 			sourceTree = "<group>";
@@ -198,6 +200,7 @@
 					};
 					92BD7F8329305447003BF696 = {
 						CreatedOnToolsVersion = 14.1;
+						LastSwiftMigration = 1410;
 						TestTargetID = 92BD7F6D29305445003BF696;
 					};
 					92BD7F8D29305447003BF696 = {
@@ -268,7 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92BD7F8929305447003BF696 /* Vidio2Tests.swift in Sources */,
+				92BD7FA32930554D003BF696 /* LoadVideosFromRemoteUseCaseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,14 +492,22 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.arifinfrds.Vidio2Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "Vidio2Tests/Vidio2Tests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vidio2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Vidio2";
@@ -508,14 +519,21 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.arifinfrds.Vidio2Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "Vidio2Tests/Vidio2Tests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vidio2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Vidio2";
