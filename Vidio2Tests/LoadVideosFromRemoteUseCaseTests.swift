@@ -6,60 +6,7 @@
 //
 
 import XCTest
-
-protocol HTTPClient {
-    func fetchFromAPI(_ url: URLRequest) async throws -> Data
-}
-
-struct RootResponse: Codable, Equatable {
-    let id: Int
-    let variant: String
-    let items: [Item]
-}
-
-struct Item: Codable, Equatable {
-    let id: Int
-    let title: String
-    let videoURL: String
-    let imageURL: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case videoURL = "video_url"
-        case imageURL = "image_url"
-    }
-}
-
-final class LoadVideosFromRemoteUseCase {
-    private let client: HTTPClient
-    
-    init(client: HTTPClient) {
-        self.client = client
-    }
-    
-    enum Error: Swift.Error {
-        case failToDecode
-        case client
-    }
-    
-    func execute() async throws -> [RootResponse] {
-        do {
-            let url = URL(string: "https://vidio.com/api/contents")!
-            let request = URLRequest(url: url)
-            let data = try await client.fetchFromAPI(request)
-            let decoder = JSONDecoder()
-            let decoded = try decoder.decode([RootResponse].self, from: data)
-            return decoded
-        } catch {
-            if error is DecodingError {
-                throw Error.failToDecode
-            } else {
-                throw Error.client
-            }
-        }
-    }
-}
+@testable import Vidio2
 
 final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     
