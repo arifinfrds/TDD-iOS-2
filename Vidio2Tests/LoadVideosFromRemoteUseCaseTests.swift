@@ -84,10 +84,25 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
         }
     }
     
+    func test_execute_deliversErrorOnEmptyInvalidJSON() async {
+        let client = HTTPClientStub(result: .success(invalidJSONData()))
+        let sut = LoadVideosFromRemoteUseCase(client: client)
+        
+        do {
+            _ = try await sut.execute()
+        } catch {
+            XCTAssertEqual(error as? LoadVideosFromRemoteUseCase.Error, LoadVideosFromRemoteUseCase.Error.failToDecode)
+        }
+    }
+    
     // MARK: - Helpers
     
     private func emptyJSONData() -> Data {
         "".data(using: .utf8)!
+    }
+    
+    private func invalidJSONData() -> Data {
+        "invalid-json-data".data(using: .utf8)!
     }
     
     private final class HTTPClientSpy: HTTPClient {
