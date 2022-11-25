@@ -7,7 +7,11 @@
 
 import Foundation
 
-final class LoadVideosFromRemoteUseCase {
+protocol LoadVideosUseCase {
+    func execute() async throws -> [RootResponse]
+}
+
+final class LoadVideosFromRemoteUseCase: LoadVideosUseCase {
     private let client: HTTPClient
     
     init(client: HTTPClient) {
