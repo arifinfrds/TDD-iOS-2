@@ -12,6 +12,7 @@
 		924C0A0D293061A40009F22B /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A0C293061A40009F22B /* HTTPClient.swift */; };
 		924C0A10293061CB0009F22B /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A0F293061CB0009F22B /* XCTestCase+MemoryLeakTracking.swift */; };
 		924C0A15293062420009F22B /* ContentsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A14293062420009F22B /* ContentsViewModelTests.swift */; };
+		924C0A1829306D4E0009F22B /* ContentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0A1729306D4E0009F22B /* ContentsViewModel.swift */; };
 		92BD7F7229305445003BF696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F7129305445003BF696 /* AppDelegate.swift */; };
 		92BD7F7429305445003BF696 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F7329305445003BF696 /* SceneDelegate.swift */; };
 		92BD7F7629305445003BF696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD7F7529305445003BF696 /* ViewController.swift */; };
@@ -46,6 +47,7 @@
 		924C0A0C293061A40009F22B /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		924C0A0F293061CB0009F22B /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		924C0A14293062420009F22B /* ContentsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsViewModelTests.swift; sourceTree = "<group>"; };
+		924C0A1729306D4E0009F22B /* ContentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsViewModel.swift; sourceTree = "<group>"; };
 		92BD7F6E29305445003BF696 /* Vidio2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vidio2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92BD7F7129305445003BF696 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		92BD7F7329305445003BF696 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +123,14 @@
 			path = Presentation;
 			sourceTree = "<group>";
 		};
+		924C0A1629306D3C0009F22B /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				924C0A1729306D4E0009F22B /* ContentsViewModel.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
 		92BD7F6529305445003BF696 = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				924C0A09293061650009F22B /* API */,
+				924C0A1629306D3C0009F22B /* Presentation */,
 				92BD7F7129305445003BF696 /* AppDelegate.swift */,
 				92BD7F7329305445003BF696 /* SceneDelegate.swift */,
 				92BD7F7529305445003BF696 /* ViewController.swift */,
@@ -312,6 +323,7 @@
 				924C0A082930614C0009F22B /* LoadVideosFromRemoteUseCase.swift in Sources */,
 				924C0A0D293061A40009F22B /* HTTPClient.swift in Sources */,
 				924C0A0B2930617D0009F22B /* RootResponse.swift in Sources */,
+				924C0A1829306D4E0009F22B /* ContentsViewModel.swift in Sources */,
 				92BD7F7229305445003BF696 /* AppDelegate.swift in Sources */,
 				92BD7F7429305445003BF696 /* SceneDelegate.swift in Sources */,
 			);
