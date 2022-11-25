@@ -134,6 +134,19 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
         }
     }
     
+    func test_execute_deliversItemsOnValidSingleItemData() async {
+        let client = HTTPClientStub(result: .success(validSingleItemJSONData()))
+        let sut = LoadVideosFromRemoteUseCase(client: client)
+        
+        do {
+            let decoded = try await sut.execute()
+            XCTAssertEqual(decoded.count, 1)
+            XCTAssertEqual(decoded.first!.items.count, 1)
+        } catch {
+            XCTFail("Expected success, got error instead: \(error)")
+        }
+    }
+    
     // MARK: - Helpers
     
     private func emptyJSONData() -> Data {
@@ -147,6 +160,25 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     private func validEmptyItemJSONData() -> Data {
         """
         []
+        """.data(using: .utf8)!
+    }
+    
+    private func validSingleItemJSONData() -> Data {
+        """
+        [
+           {
+              "id": 1,
+              "variant": "portrait",
+              "items": [
+                 {
+                     "id": 1,
+                     "title": "title 1",
+                     "video_url": "https://vidio.com/watch/32442.m3u8",
+                     "image_url": "https://vidio.com/image/32442.png"
+                 }
+               ]
+           }
+        ]
         """.data(using: .utf8)!
     }
     
