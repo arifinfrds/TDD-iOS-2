@@ -64,15 +64,13 @@ final class LoadVideosFromRemoteUseCase {
 final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     
     func test_init_doesNotRequestFromURL() {
-        let client = HTTPClientSpy()
-        _ = LoadVideosFromRemoteUseCase(client: client)
+        let (_, client) = makeSUT()
         
         XCTAssertEqual(client.messages, [])
     }
     
     func test_execute_requestItems() async {
-        let client = HTTPClientSpy()
-        let sut = LoadVideosFromRemoteUseCase(client: client)
+        let (sut, client) = makeSUT()
         
         _ = try? await sut.execute()
         
@@ -80,8 +78,7 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     }
     
     func test_executeTwice_requestItemsTwice() async {
-        let client = HTTPClientSpy()
-        let sut = LoadVideosFromRemoteUseCase(client: client)
+        let (sut, client) = makeSUT()
         
         _ = try? await sut.execute()
         _ = try? await sut.execute()
@@ -90,8 +87,7 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     }
     
     func test_execute_deliversErrorOnClientError() async {
-        let client = HTTPClientStub(result: .failure(LoadVideosFromRemoteUseCase.Error.client))
-        let sut = LoadVideosFromRemoteUseCase(client: client)
+        let sut = makeSUT(clientStub: HTTPClientStub(result: .failure(LoadVideosFromRemoteUseCase.Error.client)))
         
         do {
             _ = try await sut.execute()
@@ -102,7 +98,7 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     
     func test_execute_deliversErrorOnEmptyJSON() async {
         let client = HTTPClientStub(result: .success(emptyJSONData()))
-        let sut = LoadVideosFromRemoteUseCase(client: client)
+        let sut = makeSUT(clientStub: client)
         
         do {
             _ = try await sut.execute()
@@ -113,7 +109,7 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     
     func test_execute_deliversErrorOnEmptyInvalidJSON() async {
         let client = HTTPClientStub(result: .success(invalidJSONData()))
-        let sut = LoadVideosFromRemoteUseCase(client: client)
+        let sut = makeSUT(clientStub: client)
         
         do {
             _ = try await sut.execute()
@@ -124,7 +120,7 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     
     func test_execute_deliversItemsOnValidEmptyItemData() async {
         let client = HTTPClientStub(result: .success(validEmptyItemJSONData()))
-        let sut = LoadVideosFromRemoteUseCase(client: client)
+        let sut = makeSUT(clientStub: client)
         
         do {
             let decoded = try await sut.execute()
@@ -136,7 +132,7 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     
     func test_execute_deliversItemsOnValidSingleItemData() async {
         let client = HTTPClientStub(result: .success(validSingleItemJSONData()))
-        let sut = LoadVideosFromRemoteUseCase(client: client)
+        let sut = makeSUT(clientStub: client)
         
         do {
             let decoded = try await sut.execute()
@@ -149,7 +145,7 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     
     func test_execute_deliversItemsOnValidMultipleItemData() async {
         let client = HTTPClientStub(result: .success(validMultipleItemJSONData()))
-        let sut = LoadVideosFromRemoteUseCase(client: client)
+        let sut = makeSUT(clientStub: client)
         
         do {
             let decoded = try await sut.execute()
@@ -162,6 +158,19 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LoadVideosFromRemoteUseCase, client: HTTPClientSpy) {
+        let client = HTTPClientSpy()
+        let sut = LoadVideosFromRemoteUseCase(client: client)
+        trackMemoryLeak(on: sut, file: file, line: line)
+        return (sut, client)
+    }
+    
+    private func makeSUT(clientStub: HTTPClientStub, file: StaticString = #filePath, line: UInt = #line) ->  LoadVideosFromRemoteUseCase {
+        let sut = LoadVideosFromRemoteUseCase(client: clientStub)
+        trackMemoryLeak(on: sut, file: file, line: line)
+        return sut
+    }
     
     private func emptyJSONData() -> Data {
         "".data(using: .utf8)!
@@ -266,6 +275,14 @@ final class LoadVideosFromRemoteUseCaseTests: XCTestCase {
             case let .failure(error):
                 throw error
             }
+        }
+    }
+}
+
+extension XCTestCase {
+    func trackMemoryLeak(on instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
         }
     }
 }
