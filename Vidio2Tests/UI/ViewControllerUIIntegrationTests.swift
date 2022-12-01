@@ -8,6 +8,7 @@
 import XCTest
 @testable import Vidio2
 
+@MainActor
 final class ViewControllerUIIntegrationTests: XCTestCase {
     
     func test_loadView_inInInitialState() {
@@ -28,8 +29,6 @@ final class ViewControllerUIIntegrationTests: XCTestCase {
         // FIXME: Forced to make a non private API to await.
         _ = await sut.onLoad().result
         
-        // FIXME: Main actor-isolated property 'sections' can not be referenced from a non-isolated autoclosure
-        // FIXME: Main actor-isolated property 'numberOfSections' can not be referenced from a non-isolated autoclosure
         XCTAssertEqual(sut.sections.count, 2)
         XCTAssertEqual(sut.numberOfSections, 2)
     }
